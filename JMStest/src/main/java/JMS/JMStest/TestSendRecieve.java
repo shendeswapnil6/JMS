@@ -16,7 +16,7 @@ public class TestSendRecieve {
 		                                                                          
 		       // lookup the queue object
 		       Hashtable<String, String> prop = new Hashtable<String, String>();
-		       prop.put(Context.PROVIDER_URL, "tcp://localhost:61617");
+		       prop.put(Context.PROVIDER_URL, "tcp://localhost:61616");
 		       prop.put(Context.INITIAL_CONTEXT_FACTORY, "org.apache.activemq.artemis.jndi.ActiveMQInitialContextFactory");
 //		       prop.put(Context)
 //		       prop.put(Context.SECURITY_PRINCIPAL,"user2");
@@ -33,14 +33,14 @@ public class TestSendRecieve {
 		       QueueSession queueSession = queueConn.createQueueSession(false,Session.AUTO_ACKNOWLEDGE);
 		       queueConn.start();
 		                                                                           
-		       Queue queue = (Queue) context.lookup("dynamicQueues/brodcastQ");
-		       Queue queue2 = (Queue) context.lookup("dynamicQueues/ExpiryQueue");
+		       Queue queue = (Queue) context.lookup("dynamicQueues/ExpiryQueue");
+//		       Queue queue2 = (Queue) context.lookup("dynamicQueues/ExpiryQueue");
 		      
 		       //Send message
-		       	//	sendMessage(queueSession, queue);
+		       		sendMessage(queueSession, queue);
 		       
 		       //Coded to recieve the message:
-		            recieveMessage(queueSession, queue, queue2);    
+		            recieveMessage(queueSession, queue);    
 		           
 		     // close the queue connection
 		           queueConn.close();
@@ -55,10 +55,10 @@ public class TestSendRecieve {
 		TextMessage message = null;
 		 QueueSender queueSender = queueSession.createSender(queue);
 		 queueSender.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-		 for(int i = 6; i>=0; i--){
+		 for(int i = 2; i>=0; i--){
 			
 		long s = System.currentTimeMillis();	
-		 message = queueSession.createTextMessage(Long.toString(s));
+		 message = queueSession.createTextMessage(Long.toString(s)+"todassyyyyqww123");
 		 System.out.println("sent: " + message.getText());	
 		 Thread.sleep(2000);
 		 }
@@ -74,14 +74,14 @@ public class TestSendRecieve {
 	 * @param queue2
 	 * @throws JMSException
 	 */
-	public static void recieveMessage(QueueSession queueSession, Queue queue, Queue queue2) throws JMSException{
+	public static void recieveMessage(QueueSession queueSession, Queue queue) throws JMSException{
 		QueueReceiver recv = queueSession.createReceiver(queue);
 		TextMessage msg = (TextMessage) recv.receive();
-		System.out.println("message from 1st recieved >>"+msg.getText());  
-		
+		System.out.println("message from 1st recieved 16th Oct  >>"+msg.getText());  
+	/*	
 		QueueReceiver recv2 = queueSession.createReceiver(queue2);
 		TextMessage msg2 = (TextMessage) recv.receive();
-		System.out.println("message from 2nd recieved >>"+msg2.getText());  
+		System.out.println("message from 2nd recieved >>"+msg2.getText());  */
 		
 	}
 }
